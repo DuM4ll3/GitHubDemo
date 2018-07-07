@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="repo" type="ferraz.asanarebel.demo.api.models.Repo"/>
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_margin="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:transitionName="item_avatar"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="10dp"
+                android:src="@{repo.owner.avatar_url}"
+                tools:src="@mipmap/ic_launcher" />
+
+            <TextView
+                android:id="@+id/title"
+                android:transitionName="item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/avatar"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="40dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="@{repo.name}"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                tools:text="Repository Name" />
+
+            <TextView
+                android:id="@+id/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/title"
+                android:layout_alignEnd="@id/title"
+                android:layout_below="@id/title"
+                android:layout_alignBottom="@id/avatar"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:text="@{repo.description}"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/code_fork_icon"/>
+
+            <TextView
+                android:id="@+id/fork_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/subtitle"
+                android:text="@{Integer.toString(repo.forks_count)}"
+                tools:text="42"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</layout>
