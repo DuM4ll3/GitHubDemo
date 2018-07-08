@@ -1,4 +1,4 @@
-package ferraz.asanarebel.demo.api.models
+package ferraz.github.demo.api.models
 
 data class Repo (
         val name: String,

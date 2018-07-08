@@ -1,4 +1,4 @@
-package ferraz.asanarebel.demo
+package ferraz.github.demo
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

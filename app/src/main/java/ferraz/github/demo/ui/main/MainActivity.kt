@@ -1,15 +1,15 @@
-package ferraz.asanarebel.demo.ui.main
+package ferraz.github.demo.ui.main
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import com.jakewharton.rxbinding2.widget.queryTextChanges
-import ferraz.asanarebel.demo.R
-import ferraz.asanarebel.demo.api.models.Repo
-import ferraz.asanarebel.demo.databinding.ListItemBinding
-import ferraz.asanarebel.demo.ui.adapters.RepoAdapter
-import ferraz.asanarebel.demo.viewModels.RepoViewModel
+import ferraz.github.demo.R
+import ferraz.github.demo.api.models.Repo
+import ferraz.github.demo.databinding.ListItemBinding
+import ferraz.github.demo.ui.adapters.RepoAdapter
+import ferraz.github.demo.viewModels.RepoViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.TimeUnit
 
@@ -21,9 +21,9 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     private val repoViewModel = RepoViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setTheme(R.style.AppTheme)
         navigator.activity = this
 
         searchView.queryTextChanges()
@@ -38,6 +38,8 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         listView.layoutManager = LinearLayoutManager(this)
 
         repoViewModel.getList = {
+            listView.requestFocus()
+
             val adapter = RepoAdapter(it)
             listView.adapter = adapter
             adapter.itemClicked = { view, item ->

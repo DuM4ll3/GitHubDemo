@@ -1,4 +1,4 @@
-package ferraz.asanarebel.demo.ui.adapters
+package ferraz.github.demo.ui.adapters
 
 import android.databinding.BindingAdapter
 import android.support.v7.widget.RecyclerView
@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
-import ferraz.asanarebel.demo.api.models.Repo
-import ferraz.asanarebel.demo.databinding.ListItemBinding
+import ferraz.github.demo.api.models.Repo
+import ferraz.github.demo.databinding.ListItemBinding
 
 interface RepoAdapterImpl {
     var itemClicked: (ListItemBinding, Repo) -> Unit

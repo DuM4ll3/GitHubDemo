@@ -1,4 +1,4 @@
-package ferraz.asanarebel.demo.managers
+package ferraz.github.demo.managers
 
 object ManagerProvider {
 

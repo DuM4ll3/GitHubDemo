@@ -1,12 +1,12 @@
-package ferraz.asanarebel.demo.ui.main
+package ferraz.github.demo.ui.main
 
 import android.app.Activity
 import android.content.Intent
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
 import android.view.View
-import ferraz.asanarebel.demo.api.models.Repo
-import ferraz.asanarebel.demo.databinding.ListItemBinding
+import ferraz.github.demo.api.models.Repo
+import ferraz.github.demo.databinding.ListItemBinding
 
 class MainNavigator {
 

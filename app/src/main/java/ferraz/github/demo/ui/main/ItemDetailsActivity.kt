@@ -1,4 +1,4 @@
-package ferraz.asanarebel.demo.ui.main
+package ferraz.github.demo.ui.main
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
-import ferraz.asanarebel.demo.R
+import ferraz.github.demo.R
 import kotlinx.android.synthetic.main.activity_item_details.*
 import java.lang.Exception
 

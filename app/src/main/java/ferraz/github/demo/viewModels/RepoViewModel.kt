@@ -1,9 +1,9 @@
-package ferraz.asanarebel.demo.viewModels
+package ferraz.github.demo.viewModels
 
-import ferraz.asanarebel.demo.api.models.Repo
-import ferraz.asanarebel.demo.api.models.RepoResponse
-import ferraz.asanarebel.demo.managers.ManagerProvider
-import ferraz.asanarebel.demo.managers.RepoManager
+import ferraz.github.demo.api.models.Repo
+import ferraz.github.demo.api.models.RepoResponse
+import ferraz.github.demo.managers.ManagerProvider
+import ferraz.github.demo.managers.RepoManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 

@@ -1,4 +1,4 @@
-package ferraz.asanarebel.demo
+package ferraz.github.demo
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

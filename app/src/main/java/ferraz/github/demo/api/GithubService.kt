@@ -1,6 +1,6 @@
-package ferraz.asanarebel.demo.api
+package ferraz.github.demo.api
 
-import ferraz.asanarebel.demo.api.models.RepoResponse
+import ferraz.github.demo.api.models.RepoResponse
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
