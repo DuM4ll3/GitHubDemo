@@ -9,7 +9,13 @@ import com.squareup.picasso.Picasso
 import ferraz.asanarebel.demo.api.models.Repo
 import ferraz.asanarebel.demo.databinding.ListItemBinding
 
-class RepoAdapter(val data: List<Repo>): RecyclerView.Adapter<RepoViewHolder>() {
+interface RepoAdapterImpl {
+    var itemClicked: (ListItemBinding, Repo) -> Unit
+}
+
+class RepoAdapter(val data: List<Repo>): RecyclerView.Adapter<RepoAdapter.RepoViewHolder>(), RepoAdapterImpl {
+
+    override var itemClicked: (ListItemBinding, Repo) -> Unit = { view, item -> }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepoViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -25,12 +31,17 @@ class RepoAdapter(val data: List<Repo>): RecyclerView.Adapter<RepoViewHolder>() 
     override fun onBindViewHolder(holder: RepoViewHolder, position: Int) {
         holder.bind(data[position])
     }
-}
 
-class RepoViewHolder(private val binding: ListItemBinding): RecyclerView.ViewHolder(binding.root) {
-    fun bind(data: Repo) {
-        binding.repo = data
-        binding.executePendingBindings()
+    inner class RepoViewHolder(private val binding: ListItemBinding): RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.root.setOnClickListener { itemClicked(binding, data[layoutPosition]) }
+        }
+
+        fun bind(data: Repo) {
+            binding.repo = data
+            binding.executePendingBindings()
+        }
     }
 }
 

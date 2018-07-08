@@ -5,3 +5,4 @@ gradle
 gradlew*
 local.properties
 build
+\.DS_Store
