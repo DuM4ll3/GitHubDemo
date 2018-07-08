@@ -23,7 +23,7 @@
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout
-        android:id="@+id/no_results_view"
+        android:id="@+id/noResultsView"
         android:layout_below="@id/toolbar"
         android:orientation="vertical"
         android:layout_width="match_parent"

@@ -36,7 +36,10 @@ class MainActivity : AppCompatActivity(), MainActivityView {
                 .doOnNext { progressBar.visibility = View.VISIBLE }
                 .debounce(800, TimeUnit.MILLISECONDS)
                 .doOnEach { Utils.hideKeyboard(this) }
-                .distinctUntilChanged()
+                .distinctUntilChanged { t1, t2 ->
+                    progressBar.visibility = if (t1.contentEquals(t2)) View.INVISIBLE else View.VISIBLE
+                    t1.contentEquals(t2)
+                }
                 .subscribe { repoViewModel.searchRepos(it) }
 
         listView.layoutManager = LinearLayoutManager(this)
@@ -49,7 +52,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     }
 
     private fun renderList(items: List<Repo>) {
-        no_results_view.visibility = if (items.isEmpty()) View.VISIBLE else View.INVISIBLE
+        noResultsView.visibility = if (items.isEmpty()) View.VISIBLE else View.INVISIBLE
 
         val adapter = RepoAdapter(items)
         listView.adapter = adapter
