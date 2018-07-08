@@ -8,14 +8,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 interface RepoViewModelImpl {
-    var getList: (List<Repo>) -> Unit
-    var failure: (Throwable) -> Unit
+    var onResult: (List<Repo>) -> Unit
+    var onFailure: (Throwable) -> Unit
 }
 
 class RepoViewModel(private val manager: RepoManager = ManagerProvider.provideRepoManager()) : RepoViewModelImpl {
 
-    override var getList: (List<Repo>) -> Unit = {}
-    override var failure: (Throwable) -> Unit = {}
+    override var onResult: (List<Repo>) -> Unit = {}
+    override var onFailure: (Throwable) -> Unit = {}
 
     fun searchRepos(name: String) {
         manager.listRepos(name, 1)
@@ -25,10 +25,10 @@ class RepoViewModel(private val manager: RepoManager = ManagerProvider.provideRe
     }
 
     private fun handleResult(result: RepoResponse) {
-        getList(result.items)
+        onResult(result.items)
     }
 
     private fun handleError(error: Throwable) {
-        failure(error)
+        onFailure(error)
     }
 }
