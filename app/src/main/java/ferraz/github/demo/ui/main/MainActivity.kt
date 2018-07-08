@@ -34,7 +34,10 @@ class MainActivity : AppCompatActivity(), MainActivityView {
                 .skip(1)
                 .filter { it.isNotEmpty() }
                 .map { it.toString() }
-                .doOnNext { progressBar.visibility = View.VISIBLE }
+                .doOnNext {
+                    searchText.visibility = View.INVISIBLE
+                    progressBar.visibility = View.VISIBLE
+                }
                 .debounce(800, TimeUnit.MILLISECONDS)
                 .doOnEach { Utils.hideKeyboard(this) }
                 // If the query is the same as previous just hide the progress
