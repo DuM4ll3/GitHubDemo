@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
         listView.layoutManager = LinearLayoutManager(this)
 
-        repoViewModel.onResult = {
+        repoViewModel.onReposResult = {
             progressBar.visibility = View.GONE
             renderList(it)
         }

@@ -24,19 +24,12 @@ class RepoAdapter(val data: List<Repo>): RecyclerView.Adapter<RepoAdapter.RepoVi
         return RepoViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return data.size
-    }
-
-    override fun onBindViewHolder(holder: RepoViewHolder, position: Int) {
-        holder.bind(data[position])
-    }
+    override fun getItemCount(): Int = data.size
+    override fun onBindViewHolder(holder: RepoViewHolder, position: Int) =  holder.bind(data[position])
 
     inner class RepoViewHolder(private val binding: ListItemBinding): RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            binding.root.setOnClickListener { itemClicked(binding, data[layoutPosition]) }
-        }
+        init { binding.root.setOnClickListener { itemClicked(binding, data[layoutPosition]) } }
 
         fun bind(data: Repo) {
             binding.repo = data

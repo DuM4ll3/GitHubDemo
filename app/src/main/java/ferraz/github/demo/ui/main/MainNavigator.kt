@@ -12,7 +12,7 @@ class MainNavigator {
 
     companion object {
         const val IMAGE_URL = "IMAGE_URL"
-        const val SUBS_URL = "SUBS_URL"
+        const val ITEM_FULL_NAME = "ITEM_FULL_NAME"
         const val ITEM_NAME = "ITEM_TITLE"
         const val ITEM_SUBTITLE = "ITEM_SUBTITLE"
     }
@@ -31,7 +31,7 @@ class MainNavigator {
         if (act is Activity) {
             val intent = Intent(activity, ItemDetailsActivity::class.java)
             intent.putExtra(IMAGE_URL, item.owner.avatar_url)
-            intent.putExtra(SUBS_URL, item.subscribers_url)
+            intent.putExtra(ITEM_FULL_NAME, item.full_name)
             intent.putExtra(ITEM_NAME, item.name)
             intent.putExtra(ITEM_SUBTITLE, item.description)
 
