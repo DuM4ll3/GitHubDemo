@@ -21,7 +21,7 @@ class RepoViewModel(private val manager: RepoManager = ManagerProvider.provideRe
     override var onFailure: (Throwable) -> Unit = {}
 
     fun searchRepos(name: String) {
-        manager.listRepos(name, 1)
+        manager.listRepos(name)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(::handleResult, ::handleError)

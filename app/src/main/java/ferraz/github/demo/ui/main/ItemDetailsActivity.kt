@@ -27,6 +27,7 @@ class ItemDetailsActivity : AppCompatActivity() {
         val fullName = intent.extras.getString(MainNavigator.ITEM_FULL_NAME)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
+
         repoViewModel.getRepoSubscribers(fullName)
         repoViewModel.onRepoSubscribersResult = {
             recyclerView.adapter = RepoSubscriberAdapter(it)

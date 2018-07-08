@@ -7,6 +7,7 @@ import ferraz.github.demo.api.models.RepoSubscriber
 import ferraz.github.demo.databinding.ListItemSubscriberBinding
 
 class RepoSubscriberAdapter(val data: List<RepoSubscriber>): RecyclerView.Adapter<RepoSubscriberAdapter.RepoSubscriberViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepoSubscriberViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: ListItemSubscriberBinding = ListItemSubscriberBinding.inflate(layoutInflater, parent, false)

@@ -9,7 +9,9 @@ import ferraz.github.demo.api.models.Repo
 import ferraz.github.demo.databinding.ListItemBinding
 
 class MainNavigator {
-
+    /**
+     * Class to handle the app navigation for the 'main' flow
+     */
     companion object {
         const val IMAGE_URL = "IMAGE_URL"
         const val ITEM_FULL_NAME = "ITEM_FULL_NAME"
