@@ -12,6 +12,7 @@ import ferraz.github.demo.databinding.ListItemBinding
 import ferraz.github.demo.ui.adapters.RepoAdapter
 import ferraz.github.demo.utils.Utils
 import ferraz.github.demo.viewModels.RepoViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.TimeUnit
 
@@ -40,6 +41,8 @@ class MainActivity : AppCompatActivity(), MainActivityView {
                 }
                 .debounce(800, TimeUnit.MILLISECONDS)
                 .doOnEach { Utils.hideKeyboard(this) }
+                // to prevent the 'Only the original thread that created a view hierarchy can touch its views.' bug happening on emulator api 22
+                .observeOn(AndroidSchedulers.mainThread())
                 // If the query is the same as previous just hide the progress
                 .distinctUntilChanged { t1, t2 ->
                     progressBar.visibility = if (t1.contentEquals(t2)) View.INVISIBLE else View.VISIBLE

@@ -9,7 +9,7 @@ import ferraz.github.demo.api.models.Repo
 import ferraz.github.demo.databinding.ListItemBinding
 
 class MainNavigator {
-    /**
+    /*
      * Class to handle the app navigation for the 'main' flow
      */
     companion object {
