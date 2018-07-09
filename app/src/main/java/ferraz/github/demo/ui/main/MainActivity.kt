@@ -13,6 +13,9 @@ import ferraz.github.demo.ui.adapters.RepoAdapter
 import ferraz.github.demo.utils.Utils
 import ferraz.github.demo.viewModels.RepoViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.TimeUnit
 
@@ -23,6 +26,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
     private val navigator = MainNavigator()
     private val repoViewModel = RepoViewModel()
+    private val disposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -36,6 +40,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     }
 
     private fun setupSearch() {
+
         searchView.queryTextChanges()
                 .skip(1)
                 .filter { it.isNotBlank() }
@@ -45,20 +50,26 @@ class MainActivity : AppCompatActivity(), MainActivityView {
                     progressBar.visibility = View.VISIBLE
                 }
                 .debounce(800, TimeUnit.MILLISECONDS)
-                // change to UI thread before manipulating views in 'distinctUntilChange'
+                // manipulate the UI on the mainThread because of the 'distinctUntilChanged'
                 .observeOn(AndroidSchedulers.mainThread())
                 // If the query is the same as previous just hide the progress
                 .distinctUntilChanged { t1, t2 ->
                     progressBar.visibility = if (t1.contentEquals(t2)) View.INVISIBLE else View.VISIBLE
+                    Utils.hideKeyboard(this)
                     t1.contentEquals(t2)
                 }
-                .doOnEach { Utils.hideKeyboard(this) }
-                .subscribe { repoViewModel.searchRepos(it) }
+                .switchMap {
+                    repoViewModel.searchRepos(it)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                }
+                .doOnEach {
+                    progressBar.visibility = View.GONE
+                    Utils.hideKeyboard(this)
+                }
+                .subscribe { renderList(it.items) }
+                .addTo(disposable)
 
-        repoViewModel.onReposResult = {
-            progressBar.visibility = View.GONE
-            renderList(it)
-        }
         repoViewModel.onFailure = { Log.d("Error", it.localizedMessage) }
     }
 
@@ -79,5 +90,6 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         super.onDestroy()
         // avoid memory leaks
         navigator.activity = null
+        disposable.clear()
     }
 }
