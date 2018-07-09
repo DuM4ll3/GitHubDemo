@@ -13,6 +13,9 @@ import ferraz.github.demo.ui.adapters.RepoAdapter
 import ferraz.github.demo.utils.Utils
 import ferraz.github.demo.viewModels.RepoViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.TimeUnit
 
@@ -23,6 +26,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
     private val navigator = MainNavigator()
     private val repoViewModel = RepoViewModel()
+    private val disposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -31,31 +35,40 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         setSupportActionBar(toolbar)
         navigator.activity = this
 
+        listView.layoutManager = LinearLayoutManager(this)
+        setupSearch()
+    }
+
+    private fun setupSearch() {
+
         searchView.queryTextChanges()
                 .skip(1)
-                .filter { it.isNotEmpty() }
+                .filter { it.isNotBlank() }
                 .map { it.toString() }
                 .doOnNext {
                     searchText.visibility = View.INVISIBLE
                     progressBar.visibility = View.VISIBLE
                 }
                 .debounce(800, TimeUnit.MILLISECONDS)
-                .doOnEach { Utils.hideKeyboard(this) }
-                // to prevent the 'Only the original thread that created a view hierarchy can touch its views.' bug happening on emulator api 22
+                // manipulate the UI on the mainThread because of the 'distinctUntilChanged'
                 .observeOn(AndroidSchedulers.mainThread())
                 // If the query is the same as previous just hide the progress
                 .distinctUntilChanged { t1, t2 ->
                     progressBar.visibility = if (t1.contentEquals(t2)) View.INVISIBLE else View.VISIBLE
                     t1.contentEquals(t2)
                 }
-                .subscribe { repoViewModel.searchRepos(it) }
+                .switchMap {
+                    repoViewModel.searchRepos(it)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                }
+                .doOnEach {
+                    progressBar.visibility = View.GONE
+                    Utils.hideKeyboard(this)
+                }
+                .subscribe { renderList(it.items) }
+                .addTo(disposable)
 
-        listView.layoutManager = LinearLayoutManager(this)
-
-        repoViewModel.onReposResult = {
-            progressBar.visibility = View.GONE
-            renderList(it)
-        }
         repoViewModel.onFailure = { Log.d("Error", it.localizedMessage) }
     }
 
@@ -76,5 +89,6 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         super.onDestroy()
         // avoid memory leaks
         navigator.activity = null
+        disposable.clear()
     }
 }
