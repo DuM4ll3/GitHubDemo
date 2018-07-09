@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
                 // If the query is the same as previous just hide the progress
                 .distinctUntilChanged { t1, t2 ->
                     progressBar.visibility = if (t1.contentEquals(t2)) View.INVISIBLE else View.VISIBLE
+                    Utils.hideKeyboard(this)
                     t1.contentEquals(t2)
                 }
                 .switchMap {
