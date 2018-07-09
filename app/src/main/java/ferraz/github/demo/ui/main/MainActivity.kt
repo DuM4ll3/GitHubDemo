@@ -31,26 +31,29 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         setSupportActionBar(toolbar)
         navigator.activity = this
 
+        listView.layoutManager = LinearLayoutManager(this)
+        setupSearch()
+    }
+
+    private fun setupSearch() {
         searchView.queryTextChanges()
                 .skip(1)
-                .filter { it.isNotEmpty() }
+                .filter { it.isNotBlank() }
                 .map { it.toString() }
                 .doOnNext {
                     searchText.visibility = View.INVISIBLE
                     progressBar.visibility = View.VISIBLE
                 }
                 .debounce(800, TimeUnit.MILLISECONDS)
-                .doOnEach { Utils.hideKeyboard(this) }
-                // to prevent the 'Only the original thread that created a view hierarchy can touch its views.' bug happening on emulator api 22
+                // change to UI thread before manipulating views in 'distinctUntilChange'
                 .observeOn(AndroidSchedulers.mainThread())
                 // If the query is the same as previous just hide the progress
                 .distinctUntilChanged { t1, t2 ->
                     progressBar.visibility = if (t1.contentEquals(t2)) View.INVISIBLE else View.VISIBLE
                     t1.contentEquals(t2)
                 }
+                .doOnEach { Utils.hideKeyboard(this) }
                 .subscribe { repoViewModel.searchRepos(it) }
-
-        listView.layoutManager = LinearLayoutManager(this)
 
         repoViewModel.onReposResult = {
             progressBar.visibility = View.GONE
